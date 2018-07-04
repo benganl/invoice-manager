@@ -3,6 +3,8 @@ package za.co.digitalplatoon.invoiceservice.invoice.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import za.co.digitalplatoon.invoiceservice.invoice.util.ObjectHelper;
 
 @RestController
 public class InvoiceController {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(InvoiceController.class);
 
     @Autowired
     private InvoiceService invoiceService;
@@ -21,9 +25,11 @@ public class InvoiceController {
     @RequestMapping(path = "/invoices", method = { RequestMethod.POST, RequestMethod.PUT },
 	    consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody InvoiceDto addInvoice(@RequestBody InvoiceDto invoiceDto) {
+	LOG.debug("Add invoice request received: {}", invoiceDto.toString());
 	Invoice invoice = new Invoice();
-	ObjectHelper.map(invoice, invoiceDto);
+	ObjectHelper.map(invoiceDto, invoice);
 	invoiceService.addInvoice(invoice);
+	invoiceDto.setId(invoice.getId());
 	return invoiceDto;
     }
 

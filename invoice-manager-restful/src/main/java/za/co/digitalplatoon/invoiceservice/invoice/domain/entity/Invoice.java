@@ -1,18 +1,20 @@
 package za.co.digitalplatoon.invoiceservice.invoice.domain.entity;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 
@@ -26,48 +28,8 @@ public class Invoice implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date invoiceDate;
 
-    @OneToMany(mappedBy = "invoice")
-    private Set<LineItem> lineItems;
-
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-	this.id = id;
-    }
-
-    public String getClient() {
-	return client;
-    }
-
-    public void setClient(String client) {
-	this.client = client;
-    }
-
-    public Long getVatRate() {
-	return vatRate;
-    }
-
-    public void setVatRate(Long vatRate) {
-	this.vatRate = vatRate;
-    }
-
-    public Date getInvoiceDate() {
-	return invoiceDate;
-    }
-
-    public void setInvoiceDate(Date invoiceDate) {
-	this.invoiceDate = invoiceDate;
-    }
-
-    public Set<LineItem> getLineItems() {
-	return lineItems;
-    }
-
-    public void setLineItems(Set<LineItem> lineItems) {
-	this.lineItems = lineItems;
-    }
+    @OneToMany(mappedBy = "invoice", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<LineItem> lineItems;
 
     @Override
     public int hashCode() {

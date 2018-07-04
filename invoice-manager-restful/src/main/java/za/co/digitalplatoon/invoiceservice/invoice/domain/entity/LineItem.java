@@ -5,12 +5,15 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class LineItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 
@@ -26,46 +29,6 @@ public class LineItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "INVOICE_ID", referencedColumnName = "ID")
     private Invoice invoice;
-
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-	this.id = id;
-    }
-
-    public Long getQuantity() {
-	return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-	this.quantity = quantity;
-    }
-
-    public String getDescription() {
-	return description;
-    }
-
-    public void setDescription(String description) {
-	this.description = description;
-    }
-
-    public BigDecimal getUnitPrice() {
-	return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-	this.unitPrice = unitPrice;
-    }
-
-    public Invoice getInvoice() {
-	return invoice;
-    }
-
-    public void setInvoice(Invoice invoice) {
-	this.invoice = invoice;
-    }
 
     @Override
     public int hashCode() {
