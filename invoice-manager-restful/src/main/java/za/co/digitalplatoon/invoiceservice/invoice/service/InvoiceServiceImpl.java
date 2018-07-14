@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.digitalplatoon.invoiceservice.invoice.domain.Invoice;
 import za.co.digitalplatoon.invoiceservice.invoice.domain.InvoiceRepository;
+import za.co.digitalplatoon.invoiceservice.invoice.domain.LineItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +28,20 @@ class InvoiceServiceImpl implements InvoiceService {
     private InvoiceManager invoiceManager;
 
     @Override
+    @Transactional
     public void save(Invoice invoice) {
         invoiceManager.createInvoice(invoice);
+        List<LineItem> lineItems = invoice.getLineItems();
+
+        for (LineItem lineItem : lineItems) {
+            lineItem.setInvoice(invoice);
+        }
+
         LOG.debug("Invoice: {}", invoice.toString());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Invoice> viewAllInvoices() {
         Iterable<Invoice> result = invoiceRepository.findAll();
         List<Invoice> invoices = new ArrayList<>();
@@ -40,6 +50,7 @@ class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Invoice viewInvoice(Long invoiceId) {
         Optional<Invoice> result = invoiceRepository.findById(invoiceId);
         return result.isPresent() ? result.get() : null;

@@ -3,8 +3,12 @@ package za.co.digitalplatoon.invoiceservice.invoice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import za.co.digitalplatoon.invoiceservice.invoice.shared.BaseEntity;
+import za.co.digitalplatoon.invoiceservice.invoice.util.ApplicationConstants;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +40,24 @@ public class Invoice implements BaseEntity {
 
     Invoice() {
 
+    }
+
+    public BigDecimal getSubTotal() {
+        MathContext MATH_CONTEXT = new MathContext(2, RoundingMode.HALF_UP);
+        BigDecimal subTotal = new BigDecimal(0);
+        for (LineItem lineItem : lineItems) {
+            subTotal.add(lineItem.getLineItemTotal()).round(MATH_CONTEXT);
+        }
+        return subTotal;
+    }
+
+    public BigDecimal getTotal() {
+        MathContext MATH_CONTEXT = new MathContext(2, RoundingMode.HALF_UP);
+        BigDecimal vat = new BigDecimal(vatRate);
+        BigDecimal total = getSubTotal().add(
+                getSubTotal().multiply(vat).divide(ApplicationConstants.HUNDRED)
+        ).round(MATH_CONTEXT);
+        return total;
     }
 
     public Invoice(Builder builder) {

@@ -15,4 +15,6 @@ public class InvoiceDto implements Serializable {
     private Long vatRate;
     private Date invoiceDate;
     private List<LineItemDto> lineItems;
+    private Double total;
+    private Double subTotal;
 }

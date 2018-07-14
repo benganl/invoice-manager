@@ -3,9 +3,12 @@ package za.co.digitalplatoon.invoiceservice.invoice.domain;
 import lombok.Getter;
 import lombok.Setter;
 import za.co.digitalplatoon.invoiceservice.invoice.shared.BaseEntity;
+import za.co.digitalplatoon.invoiceservice.invoice.util.ApplicationConstants;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 @Entity
 @Getter
@@ -28,12 +31,17 @@ public class LineItem implements BaseEntity {
     @Column(name = "UNIT_PRICE")
     private BigDecimal unitPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "INVOICE_ID", referencedColumnName = "ID")
     private Invoice invoice;
 
     LineItem() {
 
+    }
+
+    public BigDecimal getLineItemTotal() {
+        MathContext MATH_CONTEXT = new MathContext(2, RoundingMode.HALF_UP);
+        return unitPrice.multiply(new BigDecimal(quantity)).round(MATH_CONTEXT);
     }
 
     public LineItem(Builder builder) {
