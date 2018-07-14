@@ -1,18 +1,19 @@
 package za.co.digitalplatoon.invoiceservice.invoice.rest;
 
-import java.math.BigDecimal;
-import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import za.co.digitalplatoon.invoiceservice.invoice.domain.entity.Invoice;
-import za.co.digitalplatoon.invoiceservice.invoice.domain.entity.LineItem;
+import za.co.digitalplatoon.invoiceservice.invoice.domain.Invoice;
+import za.co.digitalplatoon.invoiceservice.invoice.domain.LineItem;
 import za.co.digitalplatoon.invoiceservice.invoice.service.InvoiceService;
 import za.co.digitalplatoon.invoiceservice.invoice.util.ObjectHelper;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 public class InvoiceController {
@@ -22,61 +23,73 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @RequestMapping(path = "/invoices", method = { RequestMethod.POST,
-	    RequestMethod.PUT }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody InvoiceDto addInvoice(@RequestBody InvoiceDto invoiceDto) {
-	LOG.debug("Add invoice request received: {}", invoiceDto.toString());
+    @RequestMapping(path = "/invoices", method = {RequestMethod.POST,
+            RequestMethod.PUT}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public
+    @ResponseBody
+    InvoiceDto addInvoice(@RequestBody InvoiceDto invoiceDto) {
+        LOG.debug("Add invoice request received: {}", invoiceDto.toString());
 
-	String client = invoiceDto.getClient();
-	Date invoiceDate = invoiceDto.getInvoiceDate();
-	Long vatRate = invoiceDto.getVatRate();
-	Set<LineItem> lineItems = mapLineItems(invoiceDto.getLineItems());
+        String client = invoiceDto.getClient();
+        Date invoiceDate = invoiceDto.getInvoiceDate();
+        Long vatRate = invoiceDto.getVatRate();
+        List<LineItem> lineItems = mapLineItems(invoiceDto.getLineItems());
 
-	Invoice invoice = new Invoice.Builder()
-		.withClient(client)
-		.withInvoiceDate(invoiceDate)
-		.withLineItems(lineItems)
-		.withVatRate(vatRate)
-		.create();
+        Invoice invoice = new Invoice.Builder()
+                .withId(null)
+                .withClient(client)
+                .withInvoiceDate(invoiceDate)
+                .withLineItems(lineItems)
+                .withVatRate(vatRate)
+                .create();
 
-	invoiceService.save(invoice);
-	invoiceDto.setId(invoice.getId());
-	return invoiceDto;
+        invoiceService.save(invoice);
+
+        invoiceDto.setId(invoice.getId());
+        return invoiceDto;
     }
 
     @RequestMapping(path = "/invoices", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<InvoiceDto> viewAllInvoices() {
-	List<Invoice> invoiceTables = invoiceService.viewAllInvoices();
-	List<InvoiceDto> invoicesDtos = new ArrayList<>();
-	for (Invoice invoiceTable : invoiceTables) {
-	    InvoiceDto invoiceDto = new InvoiceDto();
-	    ObjectHelper.map(invoiceTable, invoiceDto);
-	    invoicesDtos.add(invoiceDto);
-	}
-	return invoicesDtos;
+    public
+    @ResponseBody
+    List<InvoiceDto> viewAllInvoices() {
+        List<Invoice> invoiceTables = invoiceService.viewAllInvoices();
+        List<InvoiceDto> invoicesDtos = new ArrayList<>();
+        for (Invoice invoiceTable : invoiceTables) {
+            InvoiceDto invoiceDto = new InvoiceDto();
+            ObjectHelper.map(invoiceTable, invoiceDto);
+            invoicesDtos.add(invoiceDto);
+        }
+        return invoicesDtos;
     }
 
-    @RequestMapping(path = "/invoices/{invoiceId}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody InvoiceDto viewInvoice(@RequestParam("invoiceId") Long invoiceId) {
-	Invoice invoiceTable = invoiceService.viewInvoice(invoiceId);
-	InvoiceDto invoiceDto = new InvoiceDto();
-	ObjectHelper.map(invoiceTable, invoiceDto);
-	return invoiceDto;
+    @RequestMapping(path = "/invoices/{invoiceId}", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public
+    @ResponseBody
+    InvoiceDto viewInvoice(@PathVariable("invoiceId") Long invoiceId) {
+        Invoice invoice = invoiceService.viewInvoice(invoiceId);
+        InvoiceDto invoiceDto = new InvoiceDto();
+        ObjectHelper.map(invoice, invoiceDto);
+        return invoiceDto;
     }
 
-    private Set<LineItem> mapLineItems(List<LineItemDto> lineItemDtos) {
-	Set<LineItem> lineItems = new HashSet<>(lineItemDtos.size());
-	for (LineItemDto lineItemDto : lineItemDtos) {
+    private List<LineItem> mapLineItems(List<LineItemDto> lineItemDtos) {
+        List<LineItem> lineItems = new ArrayList<>(lineItemDtos.size());
+        for (LineItemDto lineItemDto : lineItemDtos) {
 
-	    String description = lineItemDto.getDescription();
-	    Long quantity = lineItemDto.getQuantity();
-	    BigDecimal unitPrice = lineItemDto.getUnitPrice();
+            String description = lineItemDto.getDescription();
+            Long quantity = lineItemDto.getQuantity();
+            BigDecimal unitPrice = lineItemDto.getUnitPrice();
 
-	    LineItem lineItem = new LineItem.Builder().withDescription(description).withQuantity(quantity).withUnitPrice(unitPrice).create();
+            LineItem lineItem = new LineItem.Builder()
+                    .withDescription(description)
+                    .withQuantity(quantity)
+                    .withUnitPrice(unitPrice)
+                    .create();
 
-	    lineItems.add(lineItem);
+            lineItems.add(lineItem);
 
-	}
-	return lineItems;
+        }
+        return lineItems;
     }
 }

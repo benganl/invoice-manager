@@ -1,9 +1,9 @@
 package za.co.digitalplatoon.invoiceservice.invoice.rest;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import lombok.Data;
 
 @Data
 public class LineItemDto implements Serializable {

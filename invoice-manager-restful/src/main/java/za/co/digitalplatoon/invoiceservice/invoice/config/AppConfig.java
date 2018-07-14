@@ -11,13 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 public class AppConfig {
     private static final Logger Log = LoggerFactory.getLogger(AppConfig.class);
-
-    /*
-    @Bean
-    public ServletRegistrationBean h2servletRegistration() {
-	ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
-	registrationBean.addUrlMappings("/h2/*");
-	return registrationBean;
-
-    }*/
 }

@@ -1,8 +1,8 @@
 package za.co.digitalplatoon.invoiceservice.invoice.service;
 
-import java.util.List;
+import za.co.digitalplatoon.invoiceservice.invoice.domain.Invoice;
 
-import za.co.digitalplatoon.invoiceservice.invoice.domain.entity.Invoice;
+import java.util.List;
 
 public interface InvoiceService {
 

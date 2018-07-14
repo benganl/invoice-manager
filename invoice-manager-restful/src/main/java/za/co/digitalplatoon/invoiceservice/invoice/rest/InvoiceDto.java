@@ -1,10 +1,10 @@
 package za.co.digitalplatoon.invoiceservice.invoice.rest;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import lombok.Data;
 
 @Data
 public class InvoiceDto implements Serializable {
