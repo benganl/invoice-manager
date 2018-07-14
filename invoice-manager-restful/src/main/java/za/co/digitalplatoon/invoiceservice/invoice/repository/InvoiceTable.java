@@ -1,7 +1,8 @@
-package za.co.digitalplatoon.invoiceservice.invoice.domain.entity;
+package za.co.digitalplatoon.invoiceservice.invoice.repository;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -9,7 +10,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Invoice implements Serializable {
+public class InvoiceTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,8 +29,8 @@ public class Invoice implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date invoiceDate;
 
-    @OneToMany(mappedBy = "invoice", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<LineItem> lineItems;
+    @OneToMany(mappedBy = "invoice", cascade = {CascadeType.ALL})
+    private Set<LineItemTable> lineItemTables;
 
     @Override
     public int hashCode() {
@@ -47,7 +48,7 @@ public class Invoice implements Serializable {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	Invoice other = (Invoice) obj;
+	InvoiceTable other = (InvoiceTable) obj;
 	if (id == null) {
 	    if (other.id != null)
 		return false;

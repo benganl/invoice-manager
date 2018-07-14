@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.dto;
+package za.co.digitalplatoon.invoiceservice.invoice.rest;
 
 import java.io.Serializable;
 import java.util.Date;

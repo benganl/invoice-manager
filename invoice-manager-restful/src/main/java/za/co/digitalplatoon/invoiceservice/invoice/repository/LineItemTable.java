@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.domain.entity;
+package za.co.digitalplatoon.invoiceservice.invoice.repository;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class LineItem implements Serializable {
+public class LineItemTable implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -26,9 +26,9 @@ public class LineItem implements Serializable {
     @Column(name = "UNIT_PRICE")
     private BigDecimal unitPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "INVOICE_ID", referencedColumnName = "ID")
-    private Invoice invoice;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "INVOICE_ID", referencedColumnName = "ID", nullable = false)
+    private InvoiceTable invoice;
 
     @Override
     public int hashCode() {
@@ -46,7 +46,7 @@ public class LineItem implements Serializable {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	LineItem other = (LineItem) obj;
+	LineItemTable other = (LineItemTable) obj;
 	if (id == null) {
 	    if (other.id != null)
 		return false;
@@ -54,5 +54,4 @@ public class LineItem implements Serializable {
 	    return false;
 	return true;
     }
-
 }

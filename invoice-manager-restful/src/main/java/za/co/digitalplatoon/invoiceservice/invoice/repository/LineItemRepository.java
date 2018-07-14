@@ -1,9 +1,7 @@
 package za.co.digitalplatoon.invoiceservice.invoice.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import za.co.digitalplatoon.invoiceservice.invoice.domain.entity.LineItem;
-
-public interface LineItemRepository extends CrudRepository<LineItem, Long> {
+public interface LineItemRepository extends JpaRepository<LineItemTable, Long> {
 
 }

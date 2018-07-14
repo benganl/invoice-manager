@@ -6,7 +6,7 @@ import za.co.digitalplatoon.invoiceservice.invoice.domain.entity.Invoice;
 
 public interface InvoiceService {
 
-    void addInvoice(Invoice invoice);
+    void save(Invoice invoice);
 
     List<Invoice> viewAllInvoices();
 
