@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.rest;
+package za.co.wyzetech.invoiceservice.invoice.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import za.co.digitalplatoon.invoiceservice.invoice.domain.Invoice;
-import za.co.digitalplatoon.invoiceservice.invoice.domain.LineItem;
-import za.co.digitalplatoon.invoiceservice.invoice.service.InvoiceService;
-import za.co.digitalplatoon.invoiceservice.invoice.util.ObjectHelper;
+import za.co.wyzetech.invoiceservice.invoice.domain.Invoice;
+import za.co.wyzetech.invoiceservice.invoice.domain.LineItem;
+import za.co.wyzetech.invoiceservice.invoice.service.InvoiceService;
+import za.co.wyzetech.invoiceservice.invoice.util.ObjectHelper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -53,7 +53,8 @@ public class InvoiceController {
 
     @RequestMapping(path = "/invoices", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional(propagation = Propagation.NEVER)
-    public @ResponseBody List<InvoiceDto> viewAllInvoices() {
+    public @ResponseBody
+    List<InvoiceDto> viewAllInvoices() {
         List<Invoice> invoices = invoiceService.viewAllInvoices();
         List<InvoiceDto> invoicesDtos = new ArrayList<>(invoices.size());
         for (Invoice invoice : invoices) {
@@ -64,11 +65,10 @@ public class InvoiceController {
     }
 
 
-
-
     @RequestMapping(path = "/invoices/{invoiceId}", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional(propagation = Propagation.NEVER)
-    public @ResponseBody InvoiceDto viewInvoice(@PathVariable("invoiceId") Long invoiceId) {
+    public @ResponseBody
+    InvoiceDto viewInvoice(@PathVariable("invoiceId") Long invoiceId) {
         Invoice invoice = invoiceService.viewInvoice(invoiceId);
         InvoiceDto invoiceDto = buildInvoiceDto(invoice);
         return invoiceDto;
@@ -96,7 +96,7 @@ public class InvoiceController {
 
     private List<LineItemDto> map(List<LineItem> lineItems) {
         List<LineItemDto> lineItemDtos = new ArrayList<>(lineItems.size());
-        for(LineItem lineItem : lineItems) {
+        for (LineItem lineItem : lineItems) {
             LineItemDto lineItemDto = new LineItemDto();
             ObjectHelper.map(lineItem, lineItemDto);
             lineItemDtos.add(lineItemDto);

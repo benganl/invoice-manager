@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.rest;
+package za.co.wyzetech.invoiceservice.invoice.rest;
 
 import lombok.Data;
 

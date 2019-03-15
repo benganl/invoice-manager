@@ -1,9 +1,9 @@
-package za.co.digitalplatoon.invoiceservice.invoice.domain;
+package za.co.wyzetech.invoiceservice.invoice.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import za.co.digitalplatoon.invoiceservice.invoice.shared.BaseEntity;
-import za.co.digitalplatoon.invoiceservice.invoice.util.ApplicationConstants;
+import za.co.wyzetech.invoiceservice.invoice.shared.BaseEntity;
+import za.co.wyzetech.invoiceservice.invoice.util.ApplicationConstants;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

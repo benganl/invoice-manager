@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.shared;
+package za.co.wyzetech.invoiceservice.invoice.shared;
 
 import java.io.Serializable;
 

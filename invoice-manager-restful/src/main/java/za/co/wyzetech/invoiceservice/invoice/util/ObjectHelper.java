@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.util;
+package za.co.wyzetech.invoiceservice.invoice.util;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ObjectHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectHelper.class);
+
     public static void map(Object src, Object dest) {
         try {
             BeanUtils.copyProperties(dest, src);

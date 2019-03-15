@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice;
+package za.co.wyzetech.invoiceservice.invoice;
 
 
 import org.springframework.boot.SpringApplication;

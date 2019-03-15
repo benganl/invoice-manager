@@ -1,6 +1,6 @@
-package za.co.digitalplatoon.invoiceservice.invoice.service;
+package za.co.wyzetech.invoiceservice.invoice.service;
 
-import za.co.digitalplatoon.invoiceservice.invoice.domain.Invoice;
+import za.co.wyzetech.invoiceservice.invoice.domain.Invoice;
 
 import java.util.List;
 

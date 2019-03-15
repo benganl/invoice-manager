@@ -1,4 +1,4 @@
-package za.co.digitalplatoon.invoiceservice.invoice.util;
+package za.co.wyzetech.invoiceservice.invoice.util;
 
 import java.math.BigDecimal;
 

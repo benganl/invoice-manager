@@ -1,12 +1,12 @@
-package za.co.digitalplatoon.invoiceservice.invoice.domain;
+package za.co.wyzetech.invoiceservice.invoice.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import za.co.digitalplatoon.invoiceservice.invoice.rest.InvoiceDto;
-import za.co.digitalplatoon.invoiceservice.invoice.rest.LineItemDto;
+import za.co.wyzetech.invoiceservice.invoice.rest.InvoiceDto;
+import za.co.wyzetech.invoiceservice.invoice.rest.LineItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
